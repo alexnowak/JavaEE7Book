@@ -1,10 +1,20 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Start Page</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>The BookStore</title>
+    </h:head>
+    <h:body>
+	Hello from The BookStore
+	<br/>
+	Message is: #{messageServerBean.message}
+	<br/>
+	Message Server Bean is: #{messageServerBean}
+	<br/>
+	<h:form>
+	<h:commandButton value="Send Email" action="#{bookService.createBook}"/>
+	</h:form>
+    </h:body>
 </html>
+
