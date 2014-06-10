@@ -113,11 +113,13 @@
 			<goals>
 			    <goal>java</goal>
 			</goals>
-			<configuration>
-			    <mainClass>com.anowak.javaee.javaee7book.Main</mainClass>
-			</configuration>
 		    </execution>
 		</executions>
+		
+		<configuration>
+		    <mainClass>com.anowak.javaee.javaee7book.Main</mainClass>
+		</configuration>
+		
 	    </plugin>
 
 	</plugins>
