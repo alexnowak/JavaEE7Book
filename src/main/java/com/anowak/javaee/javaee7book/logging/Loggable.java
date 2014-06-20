@@ -18,6 +18,6 @@ import javax.interceptor.InterceptorBinding;
  * @author Alexander Nowak
  */
 @InterceptorBinding
-@Retention(RUNTIME)
 @Target({METHOD, TYPE, CONSTRUCTOR})
+@Retention(RUNTIME)
 public @interface Loggable { }

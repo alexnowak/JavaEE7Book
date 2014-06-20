@@ -3,7 +3,7 @@
  * To be used only with permission.
  */
 
-package services;
+package com.anowak.javaee.javaee7book.services;
 
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;

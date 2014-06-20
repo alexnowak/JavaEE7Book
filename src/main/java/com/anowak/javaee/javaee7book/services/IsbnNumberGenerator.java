@@ -27,7 +27,7 @@ public class IsbnNumberGenerator implements NumberGenerator {
     @Loggable
     public String generateNumber() {
 	String isbn = "13-123456-" + Math.abs(new Random().nextInt());
-	logger.info("Generated ISBN: "+isbn);
+	logger.info("Generated ISBN: "+isbn + " logger="+logger);
 	return isbn;
     }
     

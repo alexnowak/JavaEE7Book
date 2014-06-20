@@ -36,7 +36,6 @@ public class ZipCodeValidator implements ConstraintValidator<ZipCode,String> {
 	if (!m.matches())
 	    return false;
 	return checker.isZipCodeValid(value);
-	
     }
     
 }
