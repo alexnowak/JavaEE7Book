@@ -17,6 +17,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import com.anowak.javaee.javaee7book.logging.Loggable;
+import javax.persistence.Transient;
 
 /**
  *
@@ -25,7 +26,8 @@ import com.anowak.javaee.javaee7book.logging.Loggable;
 @Entity
 @NamedQuery(name = "findBookH2G2", query = "SELECT b FROM Book b WHERE b.title='H2G2'")
 public class Book implements Serializable {
-    @Inject
+    // Don't map logger to database
+    @Inject @Transient
     private Logger logger;
 
     @Id @GeneratedValue
@@ -34,26 +36,25 @@ public class Book implements Serializable {
 	    
     @NotNull
     private String title;
-    @NotNull @Min(20)
+    @NotNull @Min(value=20, message="Min price is 20!!")
     private Float price;
-    @Size(max=200)
+    @Size(max=200, message="description must be shorter than 200 chars.")
     private String description;
     private String number;
     private Integer nbOfPages;
     private Boolean illustrations;
 
+    private transient int age;
     
-
     // ---------------------------------------------------
     // Constructors, Getters and Setters
     // ---------------------------------------------------
     public Book() {
-    
     }
     
     @Loggable
     public Book(String title, Float price, String description,Integer nbOfPages, Boolean illustrations) {
-	System.out.println("NEW BOOK: " + title + ", " + price + ", " + description + ", logger="+logger);
+	System.out.println("NEW BOOK: Title=\"" + title + "\", Price=$" + price + ", Descr=\"" + description + "\", nbOfPages="+nbOfPages+" illustrations="+illustrations);
 	this.title = title;
 	this.price = price;
 	this.description = description;
@@ -61,6 +62,13 @@ public class Book implements Serializable {
 	this.illustrations = illustrations;
     }
 
+    public int getAge() {
+	return age;
+    }
+    public void setAge(int age) {
+	this.age = age;
+    }
+    
     public String getTitle() {
 	return title;
     }
@@ -109,11 +117,20 @@ public class Book implements Serializable {
 	this.illustrations = illustrations;
     }
     
+    public Long getId() {
+	return id;
+    }
+
+    public void setId(Long id) {
+	this.id = id;
+    }
+
     @Override
     public String toString() {
-	return "Title=\"" + getTitle() + "\", Number=" + getNumber() + ", Desc=\"" + getDescription() 
+	return "ID="+getId()+" Title=\"" + getTitle() + "\", Number=" + getNumber() + ", Desc=\"" + getDescription() 
 		+ "\", Price=$"+getPrice();
     }
+
     
     
 }
