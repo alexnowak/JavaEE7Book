@@ -4,6 +4,7 @@ import com.anowak.javaee.javaee7book.entities.Book;
 import com.anowak.javaee.javaee7book.services.BookService;
 import java.util.Random;
 import java.util.Set;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -47,7 +48,7 @@ public class Main {
     private static void storeABook() {
 	System.out.println("----------------- Enter storeABook --------------------");
 	// 1-Creates an instance of a book (POJO)
-	Book book = new Book("H2G2", 12.5f, "The Hitchhiker's Guide to the Galaxy", 354, false);
+	Book book = new Book("H2G2", 122.5f, "The Hitchhiker's Guide to the Galaxy", 354, false);
 	book.setNumber("8-" + Math.abs(new Random().nextInt()));
 
 	// 2-Obtain an entity manager
@@ -55,11 +56,12 @@ public class Main {
 	EntityManager em = emf.createEntityManager();
 
 	// 3-Get transaction and persist the book in the database
+	EntityTransaction tx = em.getTransaction();
 	try {
-	    EntityTransaction tx = em.getTransaction();
 	    tx.begin();
 	    em.persist(book);
 	    tx.commit();
+	    System.out.println("Book: "+book.getNumber()+" saved succssfully.");
 
 	    // 4-Execute named Query.
 	    Book bookH2G2 = em.createNamedQuery("findBookH2G2", Book.class).getSingleResult();
@@ -72,10 +74,16 @@ public class Main {
 	    for (ConstraintViolation cv : violations) {
 		System.out.println(" - Invalid value="+ cv.getInvalidValue() + ", " + cv.getMessage());
 	    }
+	    // Rollback transaction
+	    tx.rollback();
+	} catch (EntityExistsException e) {
+	    System.out.println("Book ["+book+"]: Already exists in db.");
+	    e.printStackTrace();
+	    tx.rollback();
 	} catch (Exception e) {
 	    System.out.println("Exception caught: ");
 	    e.printStackTrace();
-	    em.flush();
+	    tx.rollback();
 	} finally {
 	    // 5-Close entity manager and the factory
 	    em.close();

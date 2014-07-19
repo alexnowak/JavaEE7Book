@@ -6,25 +6,30 @@
 
 package com.anowak.javaee.javaee7book.entities;
 
+import com.anowak.javaee.javaee7book.logging.Loggable;
 import java.io.Serializable;
 import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Transient;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import com.anowak.javaee.javaee7book.logging.Loggable;
-import javax.persistence.Transient;
 
 /**
  *
  * @author Alex
  */
 @Entity
-@NamedQuery(name = "findBookH2G2", query = "SELECT b FROM Book b WHERE b.title='H2G2'")
+@NamedQueries({
+    @NamedQuery(name = "findBookH2G2", query = "SELECT b FROM Book b WHERE b.title='H2G2'"),
+    @NamedQuery(name = "findAllBooks", query = "SELECT b FROM Book b")
+})
+
 public class Book implements Serializable {
     // Don't map logger to database
     @Inject @Transient

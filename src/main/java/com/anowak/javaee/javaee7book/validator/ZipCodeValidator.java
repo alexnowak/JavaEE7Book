@@ -17,12 +17,12 @@ import javax.validation.ConstraintValidatorContext;
  */
 public class ZipCodeValidator implements ConstraintValidator<ZipCode,String> {
     @Inject @USA
-    private ZipCodeChecker checker;
+    private ZipCodeChecker checker = new ZipCodeChecker();
     private Pattern zipPattern = Pattern.compile("\\d{5}(\\d{5})?");
 
     @Override
     public void initialize(ZipCode zipCode) {
-	System.out.println("initialize ZipCodeValidator: " + zipCode);
+	System.out.println("initialize ZipCodeValidator: " + zipCode.message());
     }
 
     @Override
@@ -32,7 +32,7 @@ public class ZipCodeValidator implements ConstraintValidator<ZipCode,String> {
 	
 	
 	Matcher m = zipPattern.matcher(value);
-	System.out.println("value="+value + " matches="+m.matches());
+	System.out.println("ZipCode value="+value + " matches="+m.matches() + " checker="+checker);
 	if (!m.matches())
 	    return false;
 	return checker.isZipCodeValid(value);
